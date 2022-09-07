@@ -1,0 +1,12 @@
+Index: andrew.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/andrew.txt b/andrew.txt
+new file mode 100644
+--- /dev/null	(date 1662572929973)
++++ b/andrew.txt	(date 1662572929973)
+@@ -0,0 +1,1 @@
++This is andrew!
+\ No newline at end of file
