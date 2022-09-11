@@ -15,7 +15,7 @@ icon = pygame.image.load("robots01.gif")
 #player
 player1Img = pygame.image.load("tank.png")
 player1X = random.randint(32,768)
-player1Y = random.randint(32,668)
+player1Y = random.randint(32,568)
 player1Rect = player1Img.get_rect() # this makes a rectangle around player1Img
 
 #Rectangle that goes around the mouse
