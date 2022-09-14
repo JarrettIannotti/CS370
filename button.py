@@ -1,5 +1,4 @@
 import pygame
-
 #button class
 class Button():
 
