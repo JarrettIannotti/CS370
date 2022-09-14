@@ -9,7 +9,6 @@ pygame.init()
 #Create the screen              width,height
 screen = pygame.display.set_mode((800,600))
 
-
 #----------------Title and Icon---------------
 pygame.display.set_caption("A-T Robot")
 icon = pygame.image.load("robots01.png")
@@ -30,7 +29,7 @@ print(player2Y, player2X)
 
 
 def player(playerImage, x, y):
-    screen.blit(playerImage, (x,y))
+    screen.blit(playerImage, (x, y))
 
 #Move Forward
 def move_forward(y):
