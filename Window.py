@@ -27,9 +27,10 @@ flag = 4
 #Rectangle that goes around the mouse
 mouseRect = pygame.Rect(0, 0, 50, 50)
 angle = 0
-velocity = 12       #pixels the bots move per loop cycle
+velocity = 0       #pixels the bots move per loop cycle
 count = 0           #Array position for cycling through text file
-o = 0
+i = 0               # for Loop variable
+
 def player(rect):
     screen.blit(player1Img, rect)
 #Game Loop
@@ -63,41 +64,9 @@ while running:
     # Move then wait a few seconds
 
 
-#   if "forward" in text[count]:           #Array position needs to by cycled
-#       while (i < 5):
-#           i += 1
-#           player1X += velocity
-#           time.sleep(.005)
-#           if player1X >= 768:
-#               player1X = 768
-
-#   if "back" in text[count]:
-#       while (i < 3):
-#           i += 1
-#           player1X -= velocity
-#           time.sleep(.005)
-#           if player1X <= 0:
-#               player1X = 0
-
-#   if "up" in text[count]:
-#       while (i < 3):
-#           i += 1
-#           player1Y -= velocity
-#           time.sleep(.005)
-#           if player1Y >= 0:
-#               player1Y = 0
-
-#   if "down" in text[count]:
-#       while (i < 3):
-#           i = count + 1
-#           player1Y -= velocity
-#           pygame.time.delay(.005)
-#           if player1Y >= 768:
-#               player1Y = 768
-
 
     if "rotate" in text[count]:
-        res = ""
+        res = ""  # Read in file number variable
         #res = [int(i) for i in text[count].split() if i.isdigit()]
         for char in text[count]:
             if char.isdigit():
@@ -108,13 +77,24 @@ while running:
 
 
     if "throttle" in text[count]:
+        res = ""  # Read in file number variable
+        for char in text[count]:
+            if char.isdigit():
+                res += char
+        velocity = (int(res)/10)
         player1Y -= (math.cos(angle) * velocity)
         player1X += (math.sin(angle) * velocity)
         time.sleep(.05)
 
-#    if "sleep" in text[count]:
-
-
+    if "sleep" in text[count]:
+        for char in text[count]:
+            if char.isdigit():
+                res += char
+        while i <= int(res):
+            player1Y -= (math.cos(angle) * velocity)
+            player1X += (math.sin(angle) * velocity)
+            time.sleep(.05)
+            i = i + 1
     count += 1
 
     if "!" in text[count]:
