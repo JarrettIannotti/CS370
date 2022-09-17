@@ -36,6 +36,7 @@ def player(rect):
 #Game Loop
 running = True
 while running:
+    i = 0
     # RGB - Red, Green, Blue
     screen.fill(color=(0, 0, 0))
    
@@ -73,7 +74,6 @@ while running:
                 res += char
 
         angle = (int(res) * (3.14159 / 180))
-        print(angle)
 
 
     if "throttle" in text[count]:
@@ -87,19 +87,24 @@ while running:
         time.sleep(.05)
 
     if "sleep" in text[count]:
+        res = ""
+        i = 0
         for char in text[count]:
             if char.isdigit():
                 res += char
-        while i <= int(res):
+
+        while i < int(res):
+            print(velocity)
             player1Y -= (math.cos(angle) * velocity)
             player1X += (math.sin(angle) * velocity)
-            time.sleep(.05)
-            i = i + 1
+            time.sleep(.05 / int(res))
+            i += 1
+
+
     count += 1
 
     if "!" in text[count]:
         count = 0
-
 
 
     # Keeping the rectangle on player1

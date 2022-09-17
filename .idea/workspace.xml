@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b8e6aecd-cb20-4a99-81ed-4b60a18ba130" name="Changes" comment="Movement fixes">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_9_7_2022_1_49_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_9_7_2022_1_49_PM__Changes_.xml" beforeDir="false" />
+    <list default="true" id="b8e6aecd-cb20-4a99-81ed-4b60a18ba130" name="Changes" comment="Movement fixes2">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ROBOT.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ROBOT.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Window.py" beforeDir="false" afterPath="$PROJECT_DIR$/Window.py" afterDir="false" />
@@ -81,7 +79,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663178171908</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Movement fixes2">
+      <created>1663368225846</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1663368225846</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -109,7 +114,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Movement fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Movement fixes" />
+    <MESSAGE value="Movement fixes2" />
+    <option name="LAST_COMMIT_MESSAGE" value="Movement fixes2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

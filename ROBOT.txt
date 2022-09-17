@@ -1,6 +1,7 @@
-rotate 180,
 throttle 100,
-sleep 100,
+sleep 10,
+rotate 45,
+sleep 10,
 rotate 0,
 !
 
