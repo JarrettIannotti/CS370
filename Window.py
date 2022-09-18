@@ -21,10 +21,10 @@ playerChangeX = 0
 print(player1Y, player1X)
 #player2
 
-player2Img = pygame.image.load("Images/tank2.png")
-player2X = random.randint(32+20, random.randint(32,768))
-player2Y = random.randint(32+20, random.randint(32,568))
-print(player2Y, player2X)
+#player2Img = pygame.image.load("Images/tank2.png")
+#player2X = random.randint(32+20, random.randint(32,768))
+#player2Y = random.randint(32+20, random.randint(32,568))
+#print(player2Y, player2X)
 #player3
 
 

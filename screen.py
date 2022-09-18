@@ -15,10 +15,12 @@ icon = pygame.image.load("robots01.png")
 #load button images
 play_img = pygame.image.load('Images/play.png')
 quit_img = pygame.image.load('Images/quit.png')
+title_img = pygame.image.load('Images/title.png')
 
 #create button instances
 start_button = button.Button(100, 500, play_img)
 quit_button = button.Button(450, 500, quit_img)
+title_header = button.Button(300, 50, title_img)
 
 startBtn_sound = sound.Sound()
 quitBtn_sound = sound.Sound()
@@ -26,7 +28,7 @@ running = True
 while running:
     # RGB - Red, Green, Blue
     screen.fill(color=(0, 0, 0))
-
+    title_header.draw(screen)
     #If start button is pressed execute Window.py
     if start_button.draw(screen):
         print('START')
