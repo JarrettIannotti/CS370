@@ -1,0 +1,93 @@
+I think these are used to read in any line of data?:
+s is a string
+s1 is a string
+s2 is a string
+
+I think these are just to hold indicies when looping?:
+i is an integer
+j is an integer
+k is an integer
+
+f1 is a file that the text will be readfrom (unencoded i think .AT2) 
+f2 is a file that the text will be written to (encrypted .ATL)
+
+IDK what these do:
+lock_code is a string
+
+fn1 is a string I think its filename1? (probably the file name to f1)
+fn2 is a string I think its filename2? (probably the file name to f2)
+
+lock_pos is an integer
+lock_dat is an integer
+this_dat is an integer
+
+ATLOCK uses functions from ATR2FUNC(its called stuff in ATRLOCK.PAS) and FILELIB.PAS
+
+To set a variable in pascal:
+# first declare it
+var
+  someNum : integer;
+# then set it
+  someNume := 3;
+
+Operators and other stuff in pascal
+<> checks if to operands are not equal. so 4<>3 is true and 3<>3 is not true
+'inc' is used to increase the value of an integer variable ex: c := 3; inc(c) would make c = 3. inc(c,3) would make c = 6. inc(c,-1) would make c = 2
+
+Encode function lines 58-73
+'''
+It requires a string called 's' and returns a string
+it uses the 3 integer variables i, j, k
+It checks if the lock code is not ""(empty)
+	if it is not empty then it begins a loop from i:=1 to len(s)
+		increase lock_pos by 1
+		check if lock_pos is greater than len(lock_code)
+			if it is then set lock_pos to 1
+		check if the ascii value of s[i] is between 0-31 or 128-255
+			if it is then set s[i] equal to ' '(a space)
+		set this_dat equal to the ascii value of s[i] and 15?????(this is checking if s[i] is 15 then set it to true??? otherwise set it to false??? tried this it does something else i get Error: Incompatible types: got "ShortInt" expected "Boolean" ask in class what this is. i think this is a bitwise operation but idk why it wont work for me
+		set s[i] equal to the character at ascii value of ((ascii s[i] xor ascii lock_code[lock_pos] xor lock_dat) + 1) i think this is more bitwise stuff ask in class
+		set lock_dat euqal to this_dat
+	return encoded s
+
+'''
+
+prepare function lines 75-99
+'''
+it requires two strings s and s1 and returns a string
+it uses 4 integer variables i,j,k,l (l is local?)
+it uses 1 string called s2
+# comment says this is to remove comments in the code
+it checks if len(s1) is 0 or s1[1]=';'
+	if either of those is true set s1 equal to ''(blank no space)
+else do this
+	set k equal to 0
+	for i = len(s1) go down from there to 1
+		check if s1[i] equals ';'
+			if it does set k equal to i
+	check if k is greater than 0
+		if k is greater than 0 set s1 to lstr(s1,k-1) (lstr is a function in ATR2FUNC.PAS Find it there and put it here)
+# end of remove comments
+
+# comment says this is to remove excess spaces
+from i =1 to len(s1)
+	if s1[i] is not in the array [' ',#8,#9,#10,',']
+		then set s2 equal to s2+s1[i] (add s1[i] to the end of s2)
+	else if s2 is not equal to ''(blank no space)
+		then set s=s+s2+' '(a space) (add s2 and a space to the end of s)
+		set s2 to ''(blank no space)
+if s2 is not ''(blank no space) then set s equal to s + s2 (add s2 onto the end of s)
+# end remove excess spaces
+return s (it should be prepared)
+'''
+
+write_line function lines 101-111
+'''
+it requires two string s and s1 and returns nothing
+set s equal to prepare(s,s1)
+# cooment says this is the part where it writes line?
+if the length of s is greater than 0
+	set s = encode(s) (see above for pseudocode)
+	output the text of s to f2(i think this is a second file, probably the locked .ATL file)
+# end of write line
+'''
