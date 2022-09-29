@@ -11,11 +11,9 @@ class Bullet(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center =(self.x, self.y))
         self.bearing = bearing
 
+
     def update(self):
         self.rect.y -= 29
 
     def shoot(self, ):
 
-
-
-        CLOCK.tick(120)
