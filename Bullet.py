@@ -1,19 +1,17 @@
 import pygame
+from math import *
 from Sound import Sound
-CLOCK = pygame.time.Clock()
+
 class Bullet(pygame.sprite.Sprite):
 
-    #Constructor
-    def __init__ (self, pos_x, pos_y, bearing):
+    def __init(self, x, y):
         super().__init__()
-        self.x = pos_x
-        self.y= pos_y
-        self.rect = self.image.get_rect(center =(self.x, self.y))
-        self.bearing = bearing
-
+        self.image = pygame.Surface((10, 50))
+        self.image.fill(255, 255, 255)
+        self.rect = self.image.get_rect(center = (x, y))
 
     def update(self):
-        self.rect.y -= 29
+        self.rect.y += 5
 
-    def shoot(self, ):
+
 

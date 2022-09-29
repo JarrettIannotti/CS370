@@ -1,10 +1,11 @@
 import pygame
 import random
+from Bullet import Bullet
 
-
-class Player(object):
+class Player(pygame.sprite.Sprite):
 
     def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("Images/robot.png")
         self.x = random.randint(32, 768)
         self.y = random.randint(32, 568)
@@ -19,13 +20,23 @@ class Player(object):
     def draw(self, surf):
         surf.blit(self.image, self.center)
 
+    def shoot(self):
+        bullet = Bullet(self.center[0], self.center[1])
+        bullet.update()
 
-class Game(object):
+    def create_bullet(self):
+        return Bullet(self.center[0]+15, self.center[0])
+
+class Game(pygame.sprite.Sprite):
 
     def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
         self.screen = pygame.display.set_mode((800, 600))
         self.clock = pygame.time.Clock()
         self.robot = Player()
+        player_group = pygame.sprite.Group()
+        player_group.add(self.robot)
+        bullet = pygame.sprite.Group()
 
     def run(self):
         running = True
@@ -37,12 +48,14 @@ class Game(object):
             keys = pygame.key.get_pressed()
             move_x = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
             move_y = keys[pygame.K_DOWN] - keys[pygame.K_UP]
+            if keys[pygame.K_SPACE]:
+                bullet
             self.robot.move(move_x * 5, move_y * 5)
 
-            if self.robot.center[0] <-16:
-                self.robot.center[0] = 0
-            if self.robot.center[0] > 780:
-                self.robot.center[0] = 736
+            if self.robot.center[0] < 0:
+                self.robot.center[0] = 10
+            if self.robot.center[0] > 750:
+                self.robot.center[0] = 750
 
             self.screen.fill(color=(192, 192, 192))
             self.robot.draw(self.screen)
