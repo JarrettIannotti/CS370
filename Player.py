@@ -47,8 +47,30 @@ class Player(pygame.sprite.Sprite):
             commands["ADD"](1, 2)
         elif commands["Something else"].__contains__("Testing"):
             print("YOO")
+        # this would be how it is done
+        if command in commands:
+            'Do the commands'
 
     # End example movement
+
+    # Example file reading
+    # This would go in main window or spawner or wherever we handle that
+        # playerList would just be a list of file paths we are loading from
+        for filePath in playerList:
+            try:
+                # using with we don't need to close the file it handles that for us
+                with open("filename.txt") as file:
+                    contents = file.read()
+                    # we would pass the entire file contents to the player when its loaded so each player
+                    # holds its own file contents
+                    player(color, Xcoord, Ycoord, health, contents)
+            # if the file doesn't exist it prints and error and exits the program
+            except FileNotFoundError:
+                    print("THE FILE IS NOT FOUND")
+                    exit()
+    # Example file reading ends here
+
+
 # Add these all to a group eventually with all_sprites_list = pygame.sprite.Group()
 # Then all_sprites_list.add(object_) ON https://www.geeksforgeeks.org/pygame-creating-sprites/
 # https://stackoverflow.com/questions/61088785/pygame-trying-to-understand-the-sprite-class
