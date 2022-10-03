@@ -1,14 +1,15 @@
+import random
 import pygame
 from Player import Player
 
+
 screen = pygame.display.set_mode((800, 600))
 clock = pygame.time.Clock()
-robot = Player()
+robot = Player( "red" , 100 )
 player_group = pygame.sprite.Group()
 player_group.add(robot)
 
 bullet_group = pygame.sprite.Group()
-
 running = True
 while running:
     clock.tick(60)
@@ -22,7 +23,7 @@ while running:
     keys = pygame.key.get_pressed()
     move_x = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
     move_y = keys[pygame.K_DOWN] - keys[pygame.K_UP]
-    robot.move(move_x * 5, move_y * 5)
+    Player.Movement(angle=60)
 
 
     if keys[pygame.K_SPACE]:
