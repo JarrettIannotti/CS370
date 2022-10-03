@@ -1,128 +1,46 @@
 import pygame
-import random
-from Bullet import Bullet
+from Player import Player
 
-class Player(pygame.sprite.Sprite):
+screen = pygame.display.set_mode((800, 600))
+clock = pygame.time.Clock()
+robot = Player()
+player_group = pygame.sprite.Group()
+player_group.add(robot)
 
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load("Images/robot.png")
-        self.x = random.randint(32, 768)
-        self.y = random.randint(32, 568)
-        self.center = [self.x, self.y]
-        self.change_x = 0
-        self.change_y = 0
+bullet_group = pygame.sprite.Group()
 
-    def move(self, x, y):
-        self.center[0] += x
-        self.center[1] += y
+running = True
+while running:
+    clock.tick(60)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
 
-    def draw(self, surf):
-        surf.blit(self.image, self.center)
+    pos = pygame.mouse.get_pos()
+    mouse_x = pos[0]
+    mouse_y = pos[1]
+    keys = pygame.key.get_pressed()
+    move_x = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
+    move_y = keys[pygame.K_DOWN] - keys[pygame.K_UP]
+    robot.move(move_x * 5, move_y * 5)
 
-    def shoot(self):
-        bullet = Bullet(self.center[0], self.center[1])
-        bullet.update()
 
-    def create_bullet(self):
-        return Bullet(self.center[0]+15, self.center[0])
+    if keys[pygame.K_SPACE]:
+        bullet = robot.create_bullet(mouse_x, mouse_y)
+        bullet_group.add(bullet)
 
-class Game(pygame.sprite.Sprite):
+    if robot.center[0] <= 0:
+        robot.center[0] = 0
+    elif robot.center[0] >= 750:
+        robot.center[0] = 750
+    if robot.center[1] <= 0:
+        robot.center[1] = 0
+    elif robot.center[1] >= 550:
+        robot.center[1] = 550
 
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.screen = pygame.display.set_mode((800, 600))
-        self.clock = pygame.time.Clock()
-        self.robot = Player()
-        player_group = pygame.sprite.Group()
-        player_group.add(self.robot)
-        bullet = pygame.sprite.Group()
+    screen.fill(color=(192, 192, 192))
+    robot.draw(screen)
+    bullet_group.draw(screen)
+    bullet_group.update()
+    pygame.display.flip()
 
-    def run(self):
-        running = True
-        while running:
-            self.clock.tick(60)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-            keys = pygame.key.get_pressed()
-            move_x = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
-            move_y = keys[pygame.K_DOWN] - keys[pygame.K_UP]
-            if keys[pygame.K_SPACE]:
-                bullet
-            self.robot.move(move_x * 5, move_y * 5)
-
-            if self.robot.center[0] < 0:
-                self.robot.center[0] = 10
-            if self.robot.center[0] > 750:
-                self.robot.center[0] = 750
-
-            self.screen.fill(color=(192, 192, 192))
-            self.robot.draw(self.screen)
-            pygame.display.update()
-g = Game()
-g.run()
-
-# Initalize the pygame
-# pygame.init()
-#
-# # ----------------Title and Icon---------------
-# pygame.display.set_caption("A-T Robot")
-#
-# # player1
-# # player1Img = pygame.image.load("Images/robot.png")
-# # player1X = random.randint(32, 768)
-# # player1Y = random.randint(32, 568)
-# # playerChangeX = 0
-# # playerChangeY = 0
-#
-#
-# def player(playerImage, x, y):
-#     screen.blit(playerImage, (x, y))
-#
-#
-# velocity = 5
-# clock = pygame.time.Clock()
-#
-# # Game Loop
-# running = True
-# while running:
-#
-#     clock.tick(60)
-#     # RGB - Red, Green, Blue
-#     screen.fill(color=(192, 192, 192))
-#
-#     for event in pygame.event.get():
-#         if event.type == pygame.QUIT:
-#             running = False
-#
-#         if event.type == pygame.KEYDOWN:
-#             if event.key == pygame.K_LEFT:
-#                 playerChangeX = -5
-#             if event.key == pygame.K_RIGHT:
-#                 playerChangeX = 5
-#             if event.key == pygame.K_UP:
-#                 playerChangeY = -5
-#             if event.key == pygame.K_DOWN:
-#                 playerChangeY = 5
-#
-#         if event.type == pygame.KEYUP:
-#             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT or event.key == pygame.K_UP or event.key == pygame.K_DOWN:
-#                 playerChangeX = 0
-#                 playerChangeY = 0
-#
-#         if player1X <= 0:
-#             player1X = 0
-#         elif player1X >= 736:
-#             player1X = 736
-#         if player1Y <= 0:
-#             player1Y = 0
-#         elif player1Y >= 568:
-#             player1Y = 568
-#
-#         # Checking for boundaries of spaceship so it doesn't  go out of bounds
-#     player1X += playerChangeX
-#     player1Y += playerChangeY
-#
-#     player(player1Img, player1X, player1Y)
-#     pygame.display.update()
