@@ -29,10 +29,7 @@ class Bullet(pygame.sprite.Sprite):
         elif self.rect.bottom > 850:
             self.kill()
 
-    def checkCollision(self, player):
-        return pygame.sprite.spritecollideany(self, player)
-    def removeBullet(self, player):
-        if self.checkCollision(player):
+    def removeBullet(self):
             self.kill()
 
 
