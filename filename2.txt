@@ -1,0 +1,44 @@
+;------------------------------------------------------------------------------
+;
+; CIRCLES - runs in circles firing if enemy is detected.
+;
+; by William "Amos" Confer
+; inspired by original robot by Ed T. Toton III 02/04/97
+;------------------------------------------------------------------------------
+; Filename :) 
+;------------------------------------------------------------------------------
+#LOCK3 IYBSCYRPYOPTHE_IQBSX[EWMGB[J[\CKG
+zvh
+
+	{	 xbip
+drdn
+	f apu
+
+r
+
+g		|kmd
+w p
+
+	nj	k
+shba~v
+wze
+
+qmhzsq
+ |vvx
+
+m 
+m
+ iz
+f
+
+j|tz
+krh
+
+kjp	
+
+m
+y{
+
+Done. Used LOCK Format #3.
+Only ATR2 v2.08 or later can decode.
+Locked robot saved as '*FILE NAME GOES HERE*'
