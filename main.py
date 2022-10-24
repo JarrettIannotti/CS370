@@ -21,9 +21,10 @@ robot[1] = Player(image2, 50)
 
 
 #Player Sprite Group
-player_group = pygame.sprite.Group()
-player_group.add(robot[0])
-player_group.add(robot[1])
+player_group = pygame.sprite.GroupSingle(robot[0])
+player_group1 = pygame.sprite.GroupSingle(robot[1])
+# player_group.add(robot[0])
+# player_group.add(robot[1])
 circle = pygame.image.load("Images/circle.png")
 bullet_group[0] = pygame.sprite.Group()
 bullet_group[1] = pygame.sprite.Group()
@@ -70,8 +71,9 @@ while running:
 
         # screen.fill("Red")
         pygame.display.update()
-        health -= 1
-    print(health)
+        robot[0].health -= 1
+        player_group1.sprite.get_health(200)
+    print(robot[0].health)
 
 
 
@@ -90,11 +92,12 @@ while running:
         # screen.fill("Blue")
         screen.blit(circle, (circle_coordinate_robot2[0] - 25, circle_coordinate_robot2[1] - 25))
         pygame.display.update()
+        player_group.sprite.get_health(200)
 
 
 
 
-
+    print(robot[0].current_health)
 
 
     if robot[0].center[0] <= 0:
@@ -106,14 +109,18 @@ while running:
     elif robot[0].center[1] >= 550:
         robot[0].center[1] = 550
 
-    screen.fill(color=(192, 192, 192))
+    screen.fill(color=(0, 0, 0))
 
     player_group.draw(screen)
+    player_group1.draw(screen)
     bullet_group[0].draw(screen)
     bullet_group[0].update()
     bullet_group[1].draw(screen)
     bullet_group[1].update()
-    player_group.update()
+    player_group.update(screen, "Blue", 10, 30)
+    player_group1.update(screen, "Red", 10, 10)
     pygame.display.flip()
+
+
     #print(len(bullet_group[1]))
 
