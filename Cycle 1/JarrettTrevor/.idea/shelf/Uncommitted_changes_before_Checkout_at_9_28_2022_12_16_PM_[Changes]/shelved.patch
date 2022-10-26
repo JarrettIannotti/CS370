@@ -1,0 +1,43 @@
+Index: .idea/workspace.xml
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	
++++ b/.idea/workspace.xml	
+@@ -1,10 +1,8 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="ChangeListManager">
+-    <list default="true" id="b8e6aecd-cb20-4a99-81ed-4b60a18ba130" name="Changes" comment="Movement fixes2">
++    <list default="true" id="b8e6aecd-cb20-4a99-81ed-4b60a18ba130" name="Changes" comment="Movement fixes3">
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/ROBOT.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ROBOT.txt" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Window.py" beforeDir="false" afterPath="$PROJECT_DIR$/Window.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -86,7 +84,14 @@
+       <option name="project" value="LOCAL" />
+       <updated>1663368225846</updated>
+     </task>
+-    <option name="localTasksCounter" value="3" />
++    <task id="LOCAL-00003" summary="Movement fixes3">
++      <created>1663442170864</created>
++      <option name="number" value="00003" />
++      <option name="presentableId" value="LOCAL-00003" />
++      <option name="project" value="LOCAL" />
++      <updated>1663442170864</updated>
++    </task>
++    <option name="localTasksCounter" value="4" />
+     <servers />
+   </component>
+   <component name="Vcs.Log.Tabs.Properties">
+@@ -115,7 +120,8 @@
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="Movement fixes" />
+     <MESSAGE value="Movement fixes2" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Movement fixes2" />
++    <MESSAGE value="Movement fixes3" />
++    <option name="LAST_COMMIT_MESSAGE" value="Movement fixes3" />
+   </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>

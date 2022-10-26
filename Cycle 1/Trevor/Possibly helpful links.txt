@@ -1,0 +1,3 @@
+These might be usefull for the bitwise operations / ordinal bitwise operations:
+https://www.geeksforgeeks.org/python-bitwise-operators
+https://www.geeksforgeeks.org/operator-overloading-in-python/
