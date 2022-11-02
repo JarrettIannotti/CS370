@@ -43,8 +43,7 @@ def encode(stringToEncode: str) -> str:
     if lock_code != '':
         # From 0 to the length of stringToEncodeList
         for i in range(0, len(stringToEncodeList)):
-
-            print(f"LOCK_CODE: {lock_code[i]}")
+            print(f"LOCK_CODE: {lock_code[lock_pos]}")
             lock_pos += 1
 
 
@@ -60,41 +59,16 @@ def encode(stringToEncode: str) -> str:
             #if stringToEncodeList[i] not in range(32, 128):
                 stringToEncodeList[i] = " "
                 print(f"Skipping: Blanks space")
-            '''
-            current output for this_dat
-            stringToEncode[0] = J: Stingtoencodelist[i] = 74
-            ord(Stingtoencodelist[i]) & 15 = 10
-                 64 32  16  8  4  2  1
-            74 = 1  0   0   1  0  1  0
-            15 = 0  0   0   1  1  1  1
-                 0  0   0   1  0  1  0 = 10
-            correct
-            '''
+
             #print(f"this_dat = ord(Stingtoencodelist[i]) & 15 = {ord(stringToEncodeList[i]) & 15}")
             this_dat = ord(stringToEncodeList[i]) & 15
             print(f"this_dat {this_dat}...")
-            '''
-            current output for ord(lock_code[lock_pos]) xor lock_dat
-            stringToEncode[0] = J: Stingtoencodelist[i] = 74
-            LOCK_DAT = 0 : LOCK_CODE[LOCK_POS] = Y : ord(LOCK_CODE[LOCK_POS]) = 89
-                 64 32  16  8  4  2  1
-            89 = 1  0   1   1  0  0  1
-            0 =  0  0   0   0  0  0  0
-                 1  0   1   1  0  0  1 = 89
-                 
-            current output for (ord(stringToEncodeList[i]) xor (ord(lock_code[lock_pos]) xor lock_dat)
-                 64 32  16  8  4  2  1
-            74 = 1  0   0   1  0  1  0
-            89 = 1  0   1   1  0  0  1
-                 0  0   1   0  0  1  1 = 19
-                 19+1 = 20 
-                 chr 20 = DC4
-            '''
-           # print(f"LOCK_DAT = {lock_dat} : LOCK_CODE[LOCK_POS] = {lock_code[lock_pos]} : ord(LOCK_CODE[LOCK_POS]) = {ord(lock_code[lock_pos])}")
+
+            #print(f"LOCK_DAT = {lock_dat} : LOCK_CODE[LOCK_POS] = {lock_code[lock_pos]} : ord(LOCK_CODE[LOCK_POS]) = {ord(lock_code[lock_pos])}")
             print(f"Xoring: {ord(stringToEncodeList[i])} {lock_code[lock_pos]} {lock_dat}")
             stringToEncodeList[i] = chr((ord(stringToEncodeList[i]) ^ (lock_code[lock_pos] ^ lock_dat)) + 1)
             print(f"Became: {ord(stringToEncodeList[i])}")
-           # print(f"Value after the xors {stringToEncodeList[i]}")
+            #print(f"Value after the xors {stringToEncodeList[i]}")
             lock_dat = this_dat
             # print(f"stringToEncode: {stringToEncodeList[i]}")
     stringToEncode = str(''.join(stringToEncodeList))
@@ -115,14 +89,14 @@ def prepare(s, s1: str) -> str:
     global values
     # Remove comments
     if len(s1) == 0 or s1[0] == ";":
-        pass
+        s1 = ""
     else:
         k = 0
         for i in range(len(s1) - 1, 0, -1):
             if s1[i] == ';':
                 k = i
         if k > 0:
-            s1 = lstr(s1, k - 1)
+            s1 = lstr(s1, k)
 
     '''
     example to change excess white space to make it readable
@@ -159,7 +133,7 @@ def write_line(s, s1: str):
     s = prepare(s, s1)
     s2 = ""
     # write line
-    if len(s) > 0:
+    if len(s) > 0 and s[0] != ";":
         s = encode(s)
     return s
 
@@ -222,7 +196,14 @@ def main():
         #     lock_code = lock_code + chr(random.randint(65, 96))
 
         # RANDMAN3 LOCK lock_code = "WF_\\U\\DHNN^IPNYMQ^IE\\GTE^\\B\\SPBQNU_"
-        lock_code = "IYBSCYRPYOPTHE_IQBSX[EWMGB[J[\\CKG"
+        #circles
+        lock_code = "]QEU^TT_FWD[_XN]\\CMZVHXUH__ILZDWWM["
+        #Randman3
+        #lock_code = "WF_\\U\\DHNN^IPNYMQ^IE\\GTE^\\B\\SPBQNU_"
+        #Sniper
+        #lock_code = "^ZIHRXORFD_TIZNFIP^EA"
+        #Tracker
+        #lock_code = "HZAHR_Q\\VXT`MZ]\\LWSKL[DXVGJ]QQ[WO[UMU"
         print(lock_code)
         print(f"#LOCK{Constants.locktype} {lock_code}", file=file)
 
@@ -260,7 +241,8 @@ def main():
             s1 = s1.strip()
             newLine = write_line(s, s1)
 
-            print(newLine, file=file)
+            if len(newLine) > 0:
+                print(newLine, file=file)
         print(f"Done. Used LOCK Format #{Constants.locktype}.", file=file)
         print(f"Only ATR2 v2.08 or later can decode.", file=file)
         print("Locked robot saved as '*FILE NAME GOES HERE*'", file=file)

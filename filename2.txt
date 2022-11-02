@@ -7,34 +7,26 @@
 ;------------------------------------------------------------------------------
 ; Filename :) 
 ;------------------------------------------------------------------------------
-#LOCK3 IYBSCYRPYOPTHE_IQBSX[EWMGB[J[\CKG
-,`AR%MAYU`SQSF
-9PRC5URNZBA%
-
-XLD>W\REJ]RXZ5?*/
-CR_#^DZO`R@1#-
-J_V'KE_KEHXST"/8
-
-/UCHU
-G\R(A_J\AJN]OI@9,,#
-FZH8RN_PQPPFI[!QP`]QPUPF
-
-[VJ/KWG\AF)JB*
-RMF2OB'?(35?
-C^D87QKWZZJSP^S&
-
-2.OX[V'920
-WRA=X\GKUQ^W557
-
-.MP[]FTKMBB
-WY^.IOS\BFYF*`R9
-MQ]?FP%FKTGX^
-EE\)ZY;39
-\LT,/`LMZ'
-
-,+BDUZRH/FXS^^VHAJF
-MZA@F_PC_OER`.
-[GP8<I[EB
+#LOCK3 ]QEU^TT_FWD[_XN]\CMZVHXUH__ILZDWWM[
+@XFX<HCJJH_ZLW
+,\[B+[_OYZB<
+TKS@XHBALBTRV9##?
+IU[=^]ETWE*."(
+YLI2OXXZBZZ`\@'#
+6R`\Z
+EJM6OIWQBPXJ^O3&7/?
+HUW-GJQN^QT`[[5KUBPLDUY^?
+LVW;XIIH]R'KA,
+VYR;^J-&*'$?
+P\B@@^D]O^ERTA_4
+IBR(\G\US^V^?55
+=Z^_QJLSYQE
+SCN$JK[U\NV]&KA,
+\UH?^J-XW[]TD
+QNH?WU5,#
+G^_#7YLWZ'
+FSB2C^NQBZXIS7
+UCL$<S\F\
 Done. Used LOCK Format #3.
 Only ATR2 v2.08 or later can decode.
 Locked robot saved as '*FILE NAME GOES HERE*'
