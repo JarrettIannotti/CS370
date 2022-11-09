@@ -6,10 +6,11 @@ import math
 import time
 from Sound import Sound
 import sys
+pygame.init()
 screen = pygame.display.set_mode((1400, 900))
 clock = pygame.time.Clock()
 image1 = "Images/robot.png"
-image2 = "Images/robot2.png"
+image2 = "Images/robot.png"
 timer = 5
 robots = 2
 robot = [0, 0]
@@ -18,10 +19,10 @@ dy = []
 angle = [0, 0]
 bullet_group = [0, 0]
 bullet = [0, 0]
+
 robot[0] = Player(image1, 50)
 robot[1] = Player(image2, 50)
 
-pygame.init()
 #font
 font = pygame.font.Font(None, 40)
 text = font.render("Health", False, "Red")
@@ -37,17 +38,16 @@ audiofont = pygame.font.Font(None, 30)
 auidotext = audiofont.render("Press M to mute", False, "White")
 
 #Player Sprite Group
-player_group = pygame.sprite.GroupSingle(robot[0])
-player_group1 = pygame.sprite.GroupSingle(robot[1])
-# player_group.add(robot[0])
-# player_group.add(robot[1])
+player_group = pygame.sprite.Group()
+player_group.add(robot[0])
+player_group.add(robot[1])
 circle = pygame.image.load("Images/circle.png")
 bullet_group[0] = pygame.sprite.Group()
 bullet_group[1] = pygame.sprite.Group()
 
 previous_time = pygame.time.get_ticks()
 health = 10
-sound= Sound()
+sound = Sound()
 running = True
 
 
@@ -66,12 +66,30 @@ while running:
     angle.insert(0, math.atan2((dy[1] - dy[0]), (dx[1] - dx[0])))
     angle.insert(1, math.atan2((dy[0] - dy[1]), (dx[0] - dx[1])))
 
+    #------robot[0] movement with streering -----
+    clock.tick(60)
     keys = pygame.key.get_pressed()
-    move_x = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
-    move_y = keys[pygame.K_DOWN] - keys[pygame.K_UP]
-    robot[0].move(move_x * 5, move_y * 5)
+    if keys[pygame.K_w]:
+        robot[0].position += robot[0].direction
+    if keys[pygame.K_s]:
+        robot[0].position -= robot[0].direction
+    if keys[pygame.K_a]:
+        robot[0].direction.rotate_ip(-1)
+    if keys[pygame.K_d]:
+        robot[0].direction.rotate_ip(1)
+    robot[0].robot_angle = robot[0].direction.angle_to((1, 0))
+    robot[0].rotated_robot = pygame.transform.rotate(robot[0].image, robot[0].robot_angle)
 
 
+
+    # --------------------------
+
+   # move_x = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
+    #move_y = keys[pygame.K_DOWN] - keys[pygame.K_UP]
+
+    #robot[0].move(move_x, move_y)
+
+    #---Firing ----
     if keys[pygame.K_f]:
         current_time = pygame.time.get_ticks()
         if current_time - previous_time > 500:
@@ -90,7 +108,7 @@ while running:
         # screen.fill("Red")
         pygame.display.update()
         robot[0].health -= 1
-        player_group1.sprite.get_health(20)
+        #player_group.sprite.get_health(20)
     print(robot[0].health)
 
     if keys[pygame.K_g]:
@@ -106,7 +124,7 @@ while running:
         # screen.fill("Blue")
         screen.blit(circle, (circle_coordinate_robot2[0] - 25, circle_coordinate_robot2[1] - 25))
         pygame.display.update()
-        player_group.sprite.get_health(30)
+       # player_group.sprite.get_health(30)
 
     print(robot[0].current_health)
 
@@ -118,17 +136,19 @@ while running:
         robot[0].center[1] = 0
     elif robot[0].center[1] >= 836:
         robot[0].center[1] = 836
-
+#
     screen.fill(color=(0, 0, 0))
 
-    player_group.draw(screen)
-    player_group1.draw(screen)
+    robot[0].draw(screen)
+    robot[1].draw(screen)
+    #screen.blit(robot[0].rotated_robot, robot[0].rotated_robot.get_rect(center=(round(robot[0].position.x), round(robot[0].position.y))))
+    # player_group1.draw(screen)
     bullet_group[0].draw(screen)
     bullet_group[0].update()
     bullet_group[1].draw(screen)
     bullet_group[1].update()
 
-    player_group1.update(screen, "Red", 1020, 60)
+    player_group.update(screen, "Red", 1020, 60)
     player_group.update(screen, "Blue", 1020, 100)
 
     #Health font
@@ -158,6 +178,7 @@ while running:
     pygame.draw.line(screen, grey, (1000,400), (1400,400), 8)
     pygame.draw.line(screen, white, (1008, 408), (1008, 890),3)# white line for depth effect for the grey border
     pygame.draw.line(screen, white, (1008, 406), (1400, 406),3)
+    # screen.blit(rotated_robot, rotated_robot.get_rect(center=(round(robot[0].position.x), round(robot[0].position.y))))
 
     pygame.display.flip()
 

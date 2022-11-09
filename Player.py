@@ -2,7 +2,9 @@ import pygame
 from Bullet import Bullet
 import random
 import pygame.freetype
+pygame.init()
 class Player(pygame.sprite.Sprite):
+
 
     def __init__(self, image, health):
         pygame.sprite.Sprite.__init__(self)
@@ -20,19 +22,41 @@ class Player(pygame.sprite.Sprite):
         self.health_ratio = self.maximum_health / self.health_bar_length
         self.rect.x = self.center[0]
         self.rect.y = self.center[1]
+        self.position = pygame.math.Vector2(self.center[0], self.center[1])
+        self.direction = pygame.math.Vector2(5,0)
+        self.movement()
 
     def update(self, screen,color, x, y):
         self.basic_health(screen, color, x, y)
+#
 
-    def move(self, x, y):
+    def movement(self):
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_w]:
+            self.position += self.direction
+        if keys[pygame.K_s]:
+            self.position -= self.direction
+        if keys[pygame.K_a]:
+            self.direction.rotate_ip(-10)
+        if keys[pygame.K_d]:
+            self.direction.rotate_ip(10)
+        self.robot_angle = self.direction.angle_to((20, 20))
+        self.rotated_robot = pygame.transform.rotate(self.image, self.robot_angle)
+
+
+    def move(self,x, y):
         self.center[0] += x
         self.center[1] += y
+
 
         self.rect.x = self.center[0]
         self.rect.y = self.center[1]
 
+        pass
+
     def draw(self, surf):
-        surf.blit(self.image, self.center)
+
+        surf.blit(self.rotated_robot, self.rotated_robot.get_rect(center=(round(self.position.x), round(self.position.y))))
 
     def create_bullet(self, angle):
         return Bullet(self.center[0]+32, self.center[1]+32, angle)
