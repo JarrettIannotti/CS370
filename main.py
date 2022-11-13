@@ -1,20 +1,3 @@
-'''
-It requires a string called 's' and returns a string
-it uses the 3 integer variables i, j, k
-It checks if the lock code is not ""(empty)
-	if it is not empty then it begins a loop from i:=1 to len(s)
-		increase lock_pos by 1
-		check if lock_pos is greater than len(lock_code)
-			if it is then set lock_pos to 1
-		check if the ascii value of s[i] is between 0-31 or 128-255
-			if it is then set s[i] equal to ' '(a space)
-		set this_dat equal to the ascii value of s[i] and 15?????(this is checking if s[i] is 15 then set it to true??? otherwise set it to false??? tried this it does something else i get Error: Incompatible types: got "ShortInt" expected "Boolean" ask in class what this is. i think this is a bitwise operation but idk why it wont work for me
-		set s[i] equal to the character at ascii value of ((ascii s[i] xor ascii lock_code[lock_pos] xor lock_dat) + 1) i think this is more bitwise stuff ask in class NOTE THE +1 is after the entire statement
-		set lock_dat equal to this_dat
-	return encoded s
-
-Wrote this from like 12:30 to 4:24 :(
-'''
 import os
 import random
 import sys
@@ -32,7 +15,6 @@ values = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 
           'W', 'X', 'Y', 'Z', '[', '\\', ']', '^', '_', '`']
 
 
-# TODO: lock_pos starts at 1 in pascal (indices are at 1) but 0 here, idk, figure it out
 def encode(stringToEncode: str) -> str:
     global lock_pos
     global lock_dat
@@ -44,31 +26,31 @@ def encode(stringToEncode: str) -> str:
     if lock_code != '':
         # From 0 to the length of stringToEncodeList
         for i in range(0, len(stringToEncodeList)):
-            print(f"LOCK_CODE: {lock_code[lock_pos]}")
+            #print(f"LOCK_CODE: {lock_code[lock_pos]}")
             lock_pos += 1
 
 
             if lock_pos >= len(lock_code):
                 lock_pos = 0
 
-            print(lock_pos)
-            print(f"'Encoding: {stringToEncodeList[i]}' Lockchar: {lock_code[lock_pos]}")
+            #print(lock_pos)
+            #print(f"'Encoding: {stringToEncodeList[i]}' Lockchar: {lock_code[lock_pos]}")
             # Check to see if each character in the stringToEncode is a valid char in the ascii table if not make it " "
             #print(f"stringToEncode[{i}] = {stringToEncode[i]}: Stingtoencodelist[i] = {ord(stringToEncodeList[i])}")
 
             if (ord(stringToEncodeList[i]) in range(0, 32)) or (ord(stringToEncodeList[i]) in range(128, 256)):
             #if stringToEncodeList[i] not in range(32, 128):
                 stringToEncodeList[i] = " "
-                print(f"Skipping: Blanks space")
+                #print(f"Skipping: Blanks space")
 
             #print(f"this_dat = ord(Stingtoencodelist[i]) & 15 = {ord(stringToEncodeList[i]) & 15}")
             this_dat = ord(stringToEncodeList[i]) & 15
-            print(f"this_dat {this_dat}...")
+            #print(f"this_dat {this_dat}...")
 
             #print(f"LOCK_DAT = {lock_dat} : LOCK_CODE[LOCK_POS] = {lock_code[lock_pos]} : ord(LOCK_CODE[LOCK_POS]) = {ord(lock_code[lock_pos])}")
-            print(f"Xoring: {ord(stringToEncodeList[i])} {lock_code[lock_pos]} {lock_dat}")
+            #print(f"Xoring: {ord(stringToEncodeList[i])} {lock_code[lock_pos]} {lock_dat}")
             stringToEncodeList[i] = chr((ord(stringToEncodeList[i]) ^ (lock_code[lock_pos] ^ lock_dat)) + 1)
-            print(f"Became: {ord(stringToEncodeList[i])}")
+            #print(f"Became: {ord(stringToEncodeList[i])}")
             #print(f"Value after the xors {stringToEncodeList[i]}")
             lock_dat = this_dat
             # print(f"stringToEncode: {stringToEncodeList[i]}")
@@ -161,7 +143,7 @@ def main():
     # Read from this file and store the contents in a variable called contents
     with open(filePath, mode="r", encoding="utf-8") as file:
         contents = file.read()
-        print(contents)
+        #print(contents)
 
     # Write to this file
     with open(outFilePath, mode="w", encoding="utf-8") as file:
@@ -171,7 +153,7 @@ def main():
         i = 0
         commentsComplete = False
         contentsList = contents.splitlines()
-        print(contentsList)
+        #print(contentsList)
         # restructure this so that it will show the proper line
         while not commentsComplete:
             # if line != "":
@@ -184,21 +166,19 @@ def main():
                 break
             else:
                 # Get the current line and remove leading and trailing whitespace
-                print(s)
+                #print(s)
                 #print(f"S STRIPPED: {s}")
                 if len(s) != 0 and s[0] == ";":
                     print(s, file=file)
-                print(s)
+                #print(s)
                 i = i + 1
-                print(i)
+                #print(i)
 
         # lock header
         print(";------------------------------------------------------------------------------", file=file)
-        # TODO: Add f"{nopathfilename} locked on date" here
         print(f"; {Path(outFilePath).stem.upper()} Locked on {currentDate}", file=file)
         print(";------------------------------------------------------------------------------", file=file)
         # lock_code = ""
-        # # TODO: Figure out of these randoms are inclusive? (do they include 21 and 32). how do they work?
         # k = random.randint(20, 41)
         # for i in range(1, k):
         #     lock_code = lock_code + chr(random.randint(65, 96))
@@ -214,15 +194,14 @@ def main():
         #lock_code = "^ZIHRXORFD_TIZNFIP^EA"
         #Tracker
         #lock_code = "HZAHR_Q\\VXT`MZ]\\LWSKL[DXVGJ]QQ[WO[UMU"
-        print(lock_code)
+        #print(lock_code)
         print(f"#LOCK{Constants.locktype} {lock_code}", file=file)
 
-        # TODO: This is nt working right, its returning blanks, above functions may be busted
         # decode lock-code
         lock_code_list = list(lock_code)
-        print(lock_code_list)
+        #print(lock_code_list)
         for i in range(0, len(lock_code_list)):
-            print(lock_code[i])
+            #print(lock_code[i])
             lock_code_list[i] = ord(lock_code_list[i]) - 65
             # print(lock_code_list[i])
         # This is not in the original convert lockcode to 0-31 values
@@ -232,10 +211,10 @@ def main():
              newCode += str(lock_code_list[i])
         # print(f"newLC: {newCode}")
         lock_code = lock_code_list
-        print(lock_code)
+        #print(lock_code)
         # lock_code1 = ''.join(str(lock_code_list))
         # print(lock_code1)
-        print("Encoding *INSERT FILE 1 NAME HERE*...")
+        print(f"Encoding {filePath}...")
 
         # Encode robot
         s = s.strip()
