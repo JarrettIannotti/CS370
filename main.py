@@ -18,7 +18,8 @@ Wrote this from like 12:30 to 4:24 :(
 import os
 import random
 import sys
-
+from pathlib import Path
+from datetime import date
 
 class Constants:
     locktype = 3
@@ -145,18 +146,25 @@ def main():
     global values
     lock_pos = -1
     lock_dat = 0
-    # i dont think we need this but w/e
-    # if len(sys.argv) < 1 or len(sys.argv) > 2:
-    #     print("Usage: ATRLOCK <robot[.at2]> [locked[.atl]]")
-    #     exit()
+    # Make sure that the command entered is "main.py robot.at2" if not close the program
+    if len(sys.argv) != 2:
+         print("Usage: main.py <robot[.at2]> [locked[.atl]]")
+         exit()
+
+    # Get the current file path including .txt or .at2 w/e
+    filePath = sys.argv[1]
+    filePath = Path(filePath).stem + ".txt"
+    outFilePath = (Path(filePath).stem + ".atl")
+    currentDate = date.today().strftime("%d/%m/%Y")
+
 
     # Read from this file and store the contents in a variable called contents
-    with open("filename.txt", mode="r", encoding="utf-8") as file:
+    with open(filePath, mode="r", encoding="utf-8") as file:
         contents = file.read()
         print(contents)
 
     # Write to this file
-    with open("filename2.txt", mode="w", encoding="utf-8") as file:
+    with open(outFilePath, mode="w", encoding="utf-8") as file:
 
         # copy comment header
         print(";------------------------------------------------------------------------------", file=file)
@@ -187,7 +195,7 @@ def main():
         # lock header
         print(";------------------------------------------------------------------------------", file=file)
         # TODO: Add f"{nopathfilename} locked on date" here
-        print("; Filename :) ", file=file)
+        print(f"; {Path(outFilePath).stem.upper()} Locked on {currentDate}", file=file)
         print(";------------------------------------------------------------------------------", file=file)
         # lock_code = ""
         # # TODO: Figure out of these randoms are inclusive? (do they include 21 and 32). how do they work?
@@ -195,6 +203,8 @@ def main():
         # for i in range(1, k):
         #     lock_code = lock_code + chr(random.randint(65, 96))
 
+        # empty.at2
+        #lock_code = "[ABTIBPJ[[XUWVDDP^T^^EUSAS]FVQJYZUZZ^OM"
         # RANDMAN3 LOCK lock_code = "WF_\\U\\DHNN^IPNYMQ^IE\\GTE^\\B\\SPBQNU_"
         #circles
         lock_code = "]QEU^TT_FWD[_XN]\\CMZVHXUH__ILZDWWM["
@@ -243,9 +253,9 @@ def main():
 
             if len(newLine) > 0:
                 print(newLine, file=file)
-        print(f"Done. Used LOCK Format #{Constants.locktype}.", file=file)
-        print(f"Only ATR2 v2.08 or later can decode.", file=file)
-        print("Locked robot saved as '*FILE NAME GOES HERE*'", file=file)
+        print(f"Done. Used LOCK Format #{Constants.locktype}.")
+        print(f"Only ATR2 v2.08 or later can decode.")
+        print(f"Locked robot saved as {outFilePath}")
 
     #my_string = "this is a string"
     #for word in my_string.split():
