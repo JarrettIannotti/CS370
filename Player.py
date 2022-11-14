@@ -2,9 +2,11 @@ import pygame
 from Bullet import Bullet
 import random
 import pygame.freetype
-pygame.init()
-class Player(pygame.sprite.Sprite):
 
+
+pygame.init()
+
+class Player(pygame.sprite.Sprite):
 
     def __init__(self, image, health):
         pygame.sprite.Sprite.__init__(self)
@@ -23,7 +25,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.x = self.center[0]
         self.rect.y = self.center[1]
         self.position = pygame.math.Vector2(self.center[0], self.center[1])
-        self.direction = pygame.math.Vector2(5,0)
+        self.direction = pygame.math.Vector2(10,0)
         self.movement()
 
     def update(self, screen,color, x, y):
@@ -37,9 +39,9 @@ class Player(pygame.sprite.Sprite):
         if keys[pygame.K_s]:
             self.position -= self.direction
         if keys[pygame.K_a]:
-            self.direction.rotate_ip(-10)
+            self.direction.rotate_ip(-1000)
         if keys[pygame.K_d]:
-            self.direction.rotate_ip(10)
+            self.direction.rotate_ip(1000)
         self.robot_angle = self.direction.angle_to((20, 20))
         self.rotated_robot = pygame.transform.rotate(self.image, self.robot_angle)
 

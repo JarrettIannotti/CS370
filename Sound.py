@@ -10,5 +10,5 @@ class Sound():
 
     def playsound(self):
         print('playing sound')
-        crash_sound = pygame.mixer.Sound("gutfire.mp3")
+        crash_sound = pygame.mixer.Sound("gunfire.mp3")
         crash_sound.play()
