@@ -1,5 +1,6 @@
 import pygame
 from Bullet import Bullet
+from landmine import Landmine
 import random
 import pygame.freetype
 
@@ -63,16 +64,23 @@ class Player(pygame.sprite.Sprite):
     def create_bullet(self, angle):
         return Bullet(self.center[0]+32, self.center[1]+32, angle)
 
+    def create_landmine(self,color,angle):
+        return Landmine(self.center[0]+32, self.center[1]+32, color,angle)
+
     # def ImHit(self):  # Method for getting hit
     #     self.health = - 10
     #     self.kill()
+    def kill(self):
 
+            pygame.sprite.Sprite.kill(self)
 
-    def get_health(self, amount):
+    def lose_health(self, amount):
         if self.current_health > 0:
             self.current_health -= amount
         if self.current_health <= 0:
             self.current_health = 0
+
+
 
     def basic_health(self, screen, color, x, y):
         pygame.draw.rect(screen, color, (x, y, self.current_health/self.health_ratio, 25))

@@ -64,7 +64,7 @@ class CarSprite( pygame.sprite.Sprite ):
 
     def reverse( self ):
         """ Change forward/reverse, reset any speed to 0 """
-        self.speed     = 0
+        self.speed = 0
         self.reversing = not self.reversing
 
     def update( self ):
@@ -73,16 +73,10 @@ class CarSprite( pygame.sprite.Sprite ):
         self.position += self.velocity
         self.rect.center = ( round(self.position[0]), round(self.position[1] ) )
 
-    # def draw(self, surf):
-    #
-    #     surf.blit(self.rotated_robot, self.rotated_robot.get_rect(center=(round(self.position.x), round(self.position.y))))
 
     def create_bullet(self, angle):
         return Bullet(self.center[0]+32, self.center[1]+32, angle)
 
-    # def ImHit(self):  # Method for getting hit
-    #     self.health = - 10
-    #     self.kill()
 
 
     def get_health(self, amount):

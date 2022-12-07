@@ -8,27 +8,42 @@ import math
 import time
 from Sound import Sound
 from button import Button
+
 import sys
+import os
+
+def resource_path(relative_path):
+    try:
+    # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 pygame.init()
 
 
 
-
 screen = pygame.display.set_mode((1400, 900))
-BG = pygame.image.load("assets/Background.jpg")
+BG = pygame.image.load(resource_path("assets/Background.jpg"))
 #----------------------------------------------
 clock = pygame.time.Clock()
 previous_time = pygame.time.get_ticks()
-image1 = "Images/robot.png"
-image2 = "Images/robot2.png"
+image1 = resource_path("Images/robot.png")
+image2 = resource_path("Images/robot2.png")
 timer = 5
 robots = 2
 robot = [0, 0]
 dx = []
 dy = []
 angle = [0, 0]
+landmine_angle = [0,0]
 bullet_group = [0, 0]
 bullet = [0, 0]
+
+landmine_group = [0, 0]
+landmine = [0,0]
+
 robot[0] = Player(image1, 50)
 robot[1] = Player(image2, 50)
 #font
@@ -37,11 +52,11 @@ text = font.render("Health", False, "Red")
 
 #options - for the side
 #Escape
-escape = pygame.image.load("Images/escape.png")
+escape = pygame.image.load(resource_path("Images/escape.png"))
 Escfont = pygame.font.Font(None, 30)
 Esctext = Escfont.render("Press ESC to exit the game", False, "White")
 #audio
-audio = pygame.image.load("Images/mute (1).png")
+audio = pygame.image.load(resource_path("Images/mute (1).png"))
 audiofont = pygame.font.Font(None, 30)
 auidotext = audiofont.render("Press M to mute", False, "White")
 
@@ -56,11 +71,34 @@ auidotext = audiofont.render("Press M to mute", False, "White")
 #
 # health = 10
 # sound = Sound()
+def winScreen(Players):
+    while True:
+        screen.blit(BG, (0, 0))
+        # Start playing the song
 
+        MENU_MOUSE_POS = pygame.mouse.get_pos()
 
+        # ------------------------  Back Button -----------------------
+        OPTIONS_BACK = Button(image=None, pos=(700, 460),
+                              text_input="BACK", font=get_font(40), base_color="White", hovering_color="Green")
+        OPTIONS_BACK.changeColor(MENU_MOUSE_POS)
+        OPTIONS_BACK.update(screen)
+        UPLOAD_TEXT = get_font(75).render(f"{Players} won", True, "Yellow")
+        UPLOAD_RECT = UPLOAD_TEXT.get_rect(center=(700, 300))
+        screen.blit(UPLOAD_TEXT, UPLOAD_RECT)
+
+        # -------------------------------------------------------------
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if OPTIONS_BACK.checkForInput(MENU_MOUSE_POS):
+                   main_menu()
+        pygame.display.update()
 
 def get_font(size): # Returns Press-Start-2P in the desired size
-    return pygame.font.Font("assets/font.ttf", size)
+    return pygame.font.Font(resource_path("assets/font.ttf"), size)
 
 def get_text_box(active, color_active, color_passive, input_rect, base_font, user_text):
     if active:
@@ -83,15 +121,23 @@ def get_text_box(active, color_active, color_passive, input_rect, base_font, use
     # 60 frames should be passed.
     clock.tick(60)
 
+
 def play():
     # Player Sprite Group
     player_group = pygame.sprite.GroupSingle(robot[0])
     player_group1 = pygame.sprite.GroupSingle(robot[1])
     # player_group.add(robot[0])
     # player_group.add(robot[1])
-    circle = pygame.image.load("Images/circle.png")
+    circle = pygame.image.load(resource_path("Images/circle.png"))
+    #bullet group
     bullet_group[0] = pygame.sprite.Group()
     bullet_group[1] = pygame.sprite.Group()
+    #landmine group
+
+    landmine_group[0] = pygame.sprite.Group()
+    landmine_group[1] = pygame.sprite.Group()
+
+
 
     previous_time = pygame.time.get_ticks()
     health = 10
@@ -129,11 +175,25 @@ def play():
         angle.insert(0, math.atan2((dy[1] - dy[0]), (dx[1] - dx[0])))
         angle.insert(1, math.atan2((dy[0] - dy[1]), (dx[0] - dx[1])))
 
+        landmine_angle.insert(0, math.atan2((dy[1] - dy[0]), (dx[1] - dx[0])))
+        landmine_angle.insert(0, math.atan2((dy[0] - dy[1]), (dx[0] - dx[1])))
 
+        #Robot 1 move
         move_x = keys[pygame.K_RIGHT] - keys[pygame.K_LEFT]
         move_y = keys[pygame.K_DOWN] - keys[pygame.K_UP]
         robot[0].move(move_x * 5, move_y * 5)
 
+        #robot 2 move
+        move_x1 = keys[pygame.K_d] - keys[pygame.K_a]
+        move_y1 = keys[pygame.K_s] - keys[pygame.K_w]
+        robot[1].move(move_x1*5, move_y1*5)
+#-------------------------------------------------------------------------------------------------
+        #robot1 landmine
+        if keys[pygame.K_t]:                              #red
+            landmine.insert(0,robot[0].create_landmine((255,0,0),angle[0]))
+            landmine_group[0].add(landmine[0])
+
+        #robot 1  firing
         if keys[pygame.K_f]:
             current_time = pygame.time.get_ticks()
             if current_time - previous_time > 500:
@@ -152,8 +212,24 @@ def play():
             # screen.fill("Red")
             pygame.display.update()
             robot[0].health -= 1
-            player_group1.sprite.get_health(20)
+            player_group1.sprite.lose_health(20)
         print(robot[0].health)
+
+        if pygame.sprite.spritecollide(robot[1], landmine_group[0], True, pygame.sprite.collide_circle):
+            print("Robot 2 got hit by the landmine")
+            screen.blit(circle, (circle_coordinate_robot1[0]-25, circle_coordinate_robot1[1] -25))
+            pygame.display.update()
+            robot[0].health -=1
+            player_group1.sprite.lose_health(30)
+        print(robot[0].health)
+
+        #robot 2 landmine
+        if keys[pygame.K_m]:  # red
+            landmine.insert(1, robot[1].create_landmine((255,255,0), angle[1]))
+            landmine_group[1].add(landmine[1])
+
+        #---------------------- robot 2 firing -----------------------------------------
+
 
         if keys[pygame.K_g]:
             current_time = pygame.time.get_ticks()
@@ -168,7 +244,25 @@ def play():
             # screen.fill("Blue")
             screen.blit(circle, (circle_coordinate_robot2[0] - 25, circle_coordinate_robot2[1] - 25))
             pygame.display.update()
-            player_group.sprite.get_health(30)
+            player_group.sprite.lose_health(30)
+#---------------------------------------------------------------------------------------
+        if pygame.sprite.spritecollide(robot[0], landmine_group[1], True, pygame.sprite.collide_circle):
+            print("Robot 1 got hit by the landmine")
+            screen.blit(circle, (circle_coordinate_robot2[1]-25, circle_coordinate_robot2[1] -25))
+            pygame.display.update()
+            robot[0].health -=1
+            player_group1.sprite.lose_health(30)
+        print(robot[0].health)
+
+        if robot[0].current_health <= 0:
+
+            robot[0].kill()
+            winScreen("Player 1 ")
+
+        if robot[1].current_health <=0:
+            robot[1].kill()
+            winScreen("Player 2")
+
 
         print(robot[0].current_health)
 
@@ -189,6 +283,10 @@ def play():
         bullet_group[0].update()
         bullet_group[1].draw(screen)
         bullet_group[1].update()
+
+        #land mine
+        landmine_group[0].draw(screen)
+        landmine_group[0].update()
 
         player_group1.update(screen, "Red", 1020, 60)
         player_group.update(screen, "Blue", 1020, 100)
@@ -290,7 +388,7 @@ def options():
                 # it will set background color of screen
             # screen.fill((255, 255, 255))
         get_text_box(active, color_active, color_passive, input_rect, base_font, player1_text)
-        #=====================NEED TO WORK ON IT BUT, NOT NOW - FIX THE PLAYER MOVEMENT THEN WORK ON THIS=========================
+        #=====================  NEED TO WORK ON IT BUT, NOT NOW - FIX THE PLAYER MOVEMENT THEN WORK ON THIS  =========================
         pygame.display.update()
 # To open file directory
 def open_file():
@@ -303,8 +401,6 @@ def open_file():
 
 def main_menu():
     while True:
-
-
         screen.blit(BG, (0, 0))
         # Start playing the song
 
@@ -313,24 +409,24 @@ def main_menu():
         MENU_TEXT = get_font(75).render("AT-Robot", True, "#b68f40")
         MENU_RECT = MENU_TEXT.get_rect(center=(700, 100))
 
-        PLAY_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png"), pos=(300, 800),
+        PLAY_BUTTON = Button(image=pygame.image.load(resource_path("assets/Play Rect.png")), pos=(300, 800),
                              text_input="PLAY", font=get_font(50), base_color="#d7fcd4", hovering_color="White")
         OPTIONS_BUTTON = Button(image=pygame.image.load("assets/Play Rect.png"), pos=(700, 800),
-                                text_input="OPTIONS", font=get_font(50), base_color="#d7fcd4", hovering_color="White")
-        QUIT_BUTTON = Button(image=pygame.image.load("assets/Quit Rect.png"), pos=(1100, 800),
+                                text_input="OPTION", font=get_font(50), base_color="#d7fcd4", hovering_color="White")
+        QUIT_BUTTON = Button(image=pygame.image.load(resource_path("assets/Quit Rect.png")), pos=(1100, 800),
                              text_input="QUIT", font=get_font(50), base_color="#d7fcd4", hovering_color="White")
 
         #Player button to browse assembly file
         UPLOAD_TEXT = get_font(20).render("Upload your code here", True, "White")
         UPLOAD_RECT = UPLOAD_TEXT.get_rect(center=(700, 300))
         screen.blit(UPLOAD_TEXT, UPLOAD_RECT)
-        PLAYER_FILE1 = Button(image=pygame.image.load("assets/Play Rect1.png"), pos=(500, 400),
+        PLAYER_FILE1 = Button(image=pygame.image.load(resource_path("assets/Play Rect1.png")), pos=(500, 400),
                              text_input="PLAYER1", font=get_font(30), base_color="#d7fcd4", hovering_color="White")
-        PLAYER_FILE2 = Button(image=pygame.image.load("assets/Play Rect1.png"), pos=(900, 400),
+        PLAYER_FILE2 = Button(image=pygame.image.load(resource_path("assets/Play Rect1.png")), pos=(900, 400),
                               text_input="PLAYER2", font=get_font(30), base_color="#d7fcd4", hovering_color="White")
-        PLAYER_FILE3 = Button(image=pygame.image.load("assets/Play Rect1.png"), pos=(500, 500),
+        PLAYER_FILE3 = Button(image=pygame.image.load(resource_path("assets/Play Rect1.png")), pos=(500, 500),
                               text_input="PLAYER3", font=get_font(30), base_color="#d7fcd4", hovering_color="White")
-        PLAYER_FILE4 = Button(image=pygame.image.load("assets/Play Rect1.png"), pos=(900, 500),
+        PLAYER_FILE4 = Button(image=pygame.image.load(resource_path("assets/Play Rect1.png")), pos=(900, 500),
                               text_input="PLAYER4", font=get_font(30), base_color="#d7fcd4", hovering_color="White")
 
 
