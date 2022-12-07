@@ -116,10 +116,6 @@ def play():
                 if event.key == pygame.K_ESCAPE:
                     main_menu()
 
-
-
-
-
         for i in range(0, robots):
             dx.insert(i, robot[i].center[0])
 
@@ -180,6 +176,15 @@ def play():
             robot[0].center[1] = 0
         elif robot[0].center[1] >= 836:
             robot[0].center[1] = 836
+
+        if robot[1].center[0] <= 0:
+            robot[1].center[0] = 0
+        elif robot[1].center[0] >= 836:
+            robot[1].center[0] = 836
+        if robot[1].center[1] <= 0:
+            robot[1].center[1] = 0
+        elif robot[1].center[1] >= 836:
+            robot[1].center[1] = 836
 
         screen.fill(color=(0, 0, 0))
 
